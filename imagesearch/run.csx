@@ -4,11 +4,8 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.IO;
 using System.Collections.Generic;
-using Microsoft.Azure.CognitiveServices.Search.ImageSearch;
-using Microsoft.Azure.CognitiveServices.Search.ImageSearch.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.IO; 
  
 static string bingAccessKey = System.Environment.GetEnvironmentVariable("bingAccessKey");
 
@@ -59,14 +56,13 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 /// </summary>
 static async Task<JObject> BingImageSearch(string searchQuery)
 {
-    string accessKey = "5c761819ae9a4bcf94274dc144b3a74a";
     string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/images/search";
     // Construct the URI of the search request
     var uriQuery = uriBase + "?q=" + Uri.EscapeDataString(searchQuery);
 
     // Perform the Web request and get the response
     WebRequest request = HttpWebRequest.Create(uriQuery);
-    request.Headers["Ocp-Apim-Subscription-Key"] = accessKey;
+    request.Headers["Ocp-Apim-Subscription-Key"] = bingAccessKey;
     HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync());
     string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
